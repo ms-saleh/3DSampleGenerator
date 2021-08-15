@@ -1,0 +1,9 @@
+venv
+*.csv
+*.json
+STL
+BuildFiles
+*.png
+CB_*
+__*
+credentials.txt
