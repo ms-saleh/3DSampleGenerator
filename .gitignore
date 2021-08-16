@@ -7,3 +7,5 @@ BuildFiles
 CB_*
 __*
 credentials.txt
+Sample*
+*.d

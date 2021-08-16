@@ -1,0 +1,74 @@
+% System initialization
+InvertZAxis 1
+
+% Writing configuration
+GalvoScanMode
+ContinuousMode
+PiezoSettlingTime 10
+GalvoAcceleration 10
+StageVelocity 200
+
+% Scan field offsets
+XOffset 0
+YOffset 0
+ZOffset 0
+
+% Writing parameters
+PowerScaling 1.2
+
+% Shell writing parameters
+var $shellLaserPower = 100
+var $shellScanSpeed = 100000
+
+% Scaffold writing parameters
+var $scaffoldLaserPower = 100
+var $scaffoldScanSpeed = 150000
+
+% Base writing parameters
+var $baseLaserPower = 90
+var $baseScanSpeed = 50000
+
+% Contour writing parameters
+var $contourLaserPower = 100
+var $contourScanSpeed = 100000
+
+% Solid hatch lines writing parameters
+var $solidLaserPower = 100
+var $solidScanSpeed = 100000
+
+var $interfacePos = 0.5
+%%% Last Line in Parameter Settings
+
+CenterStage
+include Compartment_data.gwl
+TimeStampOn
+DebugModeOn
+MessageOut "Finished the bottom part, now writing the uChannels"
+
+CenterStage
+AddZDrivePosition -452
+ZDrivePosition
+CapturePhoto "NewStructureView.tif"
+
+NewStructure
+TimeStampOff
+var $ii = 0
+for $ii=0 to 3
+% Include slicer output
+CenterStage
+AddZDrivePosition $AddZ
+include QGyroid_data.gwl
+AddZDrivePosition -$AddZ-1
+CenterStage
+include QGyroid_data90.gwl
+AddZDrivePosition -$AddZ-1
+CenterStage
+include QGyroid_data180.gwl
+AddZDrivePosition -$AddZ-1
+CenterStage
+include QGyroid_data270.gwl
+AddZDrivePosition -$AddZ-1
+end
+
+SaveMessages "LogReport.txt"
+
